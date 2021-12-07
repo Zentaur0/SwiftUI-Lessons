@@ -13,7 +13,7 @@ struct ContentView: View {
     @State private var password = ""
     @State private var shouldShowLogo = true
     
-    private let maxTextFieldWidth: CGFloat = 220
+    private let maxTextFieldWidth: CGFloat = UIScreen.main.bounds.width * 0.66
     private let keyboardIsOnPublisher = Publishers.Merge(
         NotificationCenter.default.publisher(for: UIResponder.keyboardWillChangeFrameNotification)
             .map { _ in true },
@@ -33,10 +33,12 @@ struct ContentView: View {
             
             ScrollView {
                 VStack {
-                    Text("Application")
-                        .padding(.top, 50)
-                        .font(.headline)
-                        .foregroundColor(.white)
+                    if shouldShowLogo {
+                        Text("Weather App")
+                            .padding(.top, 50)
+                            .font(.largeTitle)
+                            .foregroundColor(.white)
+                    }
                     
                     HStack {
                         Text("Login:")
@@ -47,6 +49,7 @@ struct ContentView: View {
                             .textFieldStyle(.roundedBorder)
                             .frame(maxWidth: maxTextFieldWidth)
                             .padding(.trailing)
+                            .blendMode(.softLight)
                     }
                     .padding(.top, 100)
                     
@@ -60,12 +63,13 @@ struct ContentView: View {
                             .frame(maxWidth: maxTextFieldWidth)
                             .padding(.trailing)
                             .textContentType(.password)
+                            .blendMode(.softLight)
                     }
                     
                     Spacer()
                     
                     Button {
-                        print("Login Successfull")
+                        loginButtonTapped()
                     } label: {
                         Text("Login")
                             .foregroundColor(.white)
@@ -79,6 +83,7 @@ struct ContentView: View {
             .onReceive(keyboardIsOnPublisher) { isKeyboardOn in
                 withAnimation(Animation.easeInOut(duration: 0.5)) {
                     self.shouldShowLogo = !isKeyboardOn
+                    
                 }
             }
             .onTapGesture {
@@ -89,11 +94,17 @@ struct ContentView: View {
             }
         }
     }
+    
+    private func loginButtonTapped() {
+        
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .previewDevice(PreviewDevice(rawValue: "IPhone 12"))
+.previewInterfaceOrientation(.portraitUpsideDown)
     }
 }
 
