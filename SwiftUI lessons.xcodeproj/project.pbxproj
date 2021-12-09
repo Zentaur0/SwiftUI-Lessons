@@ -14,6 +14,8 @@
 		2384DBBE27555FFF0059BA06 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2384DBBD27555FFF0059BA06 /* ContentView.swift */; };
 		2384DBC0275560000059BA06 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2384DBBF275560000059BA06 /* Assets.xcassets */; };
 		2384DBC3275560000059BA06 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2384DBC2275560000059BA06 /* Preview Assets.xcassets */; };
+		23E0DAFC276261A000AE54C8 /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E0DAFB276261A000AE54C8 /* MainScreen.swift */; };
+		23E0DAFE276261B700AE54C8 /* FriendPhotosGallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E0DAFD276261B700AE54C8 /* FriendPhotosGallery.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +27,8 @@
 		2384DBBD27555FFF0059BA06 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		2384DBBF275560000059BA06 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2384DBC2275560000059BA06 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		23E0DAFB276261A000AE54C8 /* MainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen.swift; sourceTree = "<group>"; };
+		23E0DAFD276261B700AE54C8 /* FriendPhotosGallery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendPhotosGallery.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +84,8 @@
 				2384DBBD27555FFF0059BA06 /* ContentView.swift */,
 				2384DBBF275560000059BA06 /* Assets.xcassets */,
 				2384DBC1275560000059BA06 /* Preview Content */,
+				23E0DAFB276261A000AE54C8 /* MainScreen.swift */,
+				23E0DAFD276261B700AE54C8 /* FriendPhotosGallery.swift */,
 			);
 			path = "SwiftUI lessons";
 			sourceTree = "<group>";
@@ -162,6 +168,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23E0DAFC276261A000AE54C8 /* MainScreen.swift in Sources */,
+				23E0DAFE276261B700AE54C8 /* FriendPhotosGallery.swift in Sources */,
 				2384DBBE27555FFF0059BA06 /* ContentView.swift in Sources */,
 				2384DBBC27555FFF0059BA06 /* SwiftUI_lessonsApp.swift in Sources */,
 				237B6D7E275E668B00327FC2 /* FriendCell.swift in Sources */,
