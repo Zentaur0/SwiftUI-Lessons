@@ -8,12 +8,17 @@
 import SwiftUI
 import Combine
 
-struct ContentView: View {
+struct LoginView: View {
+    
+    // MARK: - Properties
     @State private var login = ""
     @State private var password = ""
     @State private var shouldShowLogo = true
+    @State private var shouldShowAuthentificationFailureAlert = false
     
-    private let maxTextFieldWidth: CGFloat = 220
+    @Binding var shouldShowMainScreen: Bool
+    
+    private let maxTextFieldWidth: CGFloat = UIScreen.main.bounds.width * 0.66
     private let keyboardIsOnPublisher = Publishers.Merge(
         NotificationCenter.default.publisher(for: UIResponder.keyboardWillChangeFrameNotification)
             .map { _ in true },
@@ -21,7 +26,7 @@ struct ContentView: View {
             .map { _ in false }
     ).removeDuplicates()
     
-    
+    // MARK: - Body
     var body: some View {
         ZStack {
             GeometryReader { _ in
@@ -33,10 +38,12 @@ struct ContentView: View {
             
             ScrollView {
                 VStack {
-                    Text("Application")
-                        .padding(.top, 50)
-                        .font(.headline)
-                        .foregroundColor(.white)
+                    if shouldShowLogo {
+                        Text("Weather App")
+                            .padding(.top, 50)
+                            .font(.largeTitle)
+                            .foregroundColor(.white)
+                    }
                     
                     HStack {
                         Text("Login:")
@@ -47,6 +54,7 @@ struct ContentView: View {
                             .textFieldStyle(.roundedBorder)
                             .frame(maxWidth: maxTextFieldWidth)
                             .padding(.trailing)
+                            .blendMode(.softLight)
                     }
                     .padding(.top, 100)
                     
@@ -60,12 +68,13 @@ struct ContentView: View {
                             .frame(maxWidth: maxTextFieldWidth)
                             .padding(.trailing)
                             .textContentType(.password)
+                            .blendMode(.softLight)
                     }
                     
                     Spacer()
                     
                     Button {
-                        print("Login Successfull")
+                        loginButtonTapped()
                     } label: {
                         Text("Login")
                             .foregroundColor(.white)
@@ -79,6 +88,7 @@ struct ContentView: View {
             .onReceive(keyboardIsOnPublisher) { isKeyboardOn in
                 withAnimation(Animation.easeInOut(duration: 0.5)) {
                     self.shouldShowLogo = !isKeyboardOn
+                    
                 }
             }
             .onTapGesture {
@@ -87,18 +97,29 @@ struct ContentView: View {
             .onAppear {
                 UIScrollView.appearance().keyboardDismissMode = .onDrag
             }
+            .alert(isPresented: $shouldShowAuthentificationFailureAlert) {
+                Alert(title: Text("Ups"),
+                      message: Text("Login or password is incorrec, please, try again"),
+                      dismissButton: .cancel())
+            }
+        }
+    }
+    
+    // MARK: - Methods
+    private func loginButtonTapped() {
+        if login == "1" && password == "2" {
+            password = ""
+            shouldShowMainScreen = true
+        } else {
+            password = ""
+            shouldShowAuthentificationFailureAlert = true
         }
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        LoginView(shouldShowMainScreen: .constant(true))
+            .previewDevice(PreviewDevice(rawValue: "IPhone 12"))
     }
-}
-
-extension UIApplication {
-   func endEditing() {
-       sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-   }
 }
