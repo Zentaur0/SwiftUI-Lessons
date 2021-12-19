@@ -11,12 +11,22 @@ struct LoginScreen: View {
     
     // MARK: - Properties
     @State private var shouldShowMainScreen = false
+    @State private var shouldShowVKScreen = false
     
     // MARK: - Body
     var body: some View {
         NavigationView {
             HStack {
-                LoginView(shouldShowMainScreen: $shouldShowMainScreen)
+                LoginView(
+                    shouldShowMainScreen: $shouldShowMainScreen,
+                    shouldShowVKLoginScreen: $shouldShowVKScreen
+                )
+                
+                NavigationLink(isActive: $shouldShowVKScreen) {
+                    VKLoginWebView()
+                } label: {
+                    EmptyView()
+                }
                 
                 NavigationLink(isActive: $shouldShowMainScreen) {
                     MainScreen()
@@ -24,7 +34,8 @@ struct LoginScreen: View {
                     EmptyView()
                 }
             }
-        }.navigationBarHidden(true)
+        }
+        .navigationBarHidden(true)
     }
 }
 

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct GroupCell: View {
     
@@ -21,7 +22,7 @@ struct GroupCell: View {
     // MARK: - Body
     var body: some View {
         HStack {
-            Image(group.imageName)
+            KFImage(URL(string: group.avatarURL))
                 .resizable()
                 .frame(width: imageMargin, height: imageMargin, alignment: .leading)
                 .cornerRadius(10)

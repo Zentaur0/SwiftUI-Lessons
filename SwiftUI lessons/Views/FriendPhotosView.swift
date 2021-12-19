@@ -8,24 +8,13 @@
 import SwiftUI
 import ASCollectionView
 
-struct Photo: Identifiable {
-    let id: UUID = UUID()
-    let image: String
-}
-
 struct FriendPhotosView: View {
     
-    // MARK: - Properties
-    @State private var photos: [Photo]
-    
-    // MARK: - Init
-    init(photos: [Photo]) {
-        self.photos = photos
-    }
+    @ObservedObject var viewModel: FriendPhotosViewModel
     
     // MARK: - Body
     var body: some View {
-        ASCollectionView(data: photos) { photo, context in
+        ASCollectionView(data: viewModel.photos) { photo, context in
             FriendPhotoCell(photo: photo)
         }
         .layout {
@@ -37,11 +26,7 @@ struct FriendPhotosView: View {
                     itemSize: .estimated(UIScreen.main.bounds.width - 40)
                 )
         }
-    }
-}
-
-struct FriendPhotosView_Previews: PreviewProvider {
-    static var previews: some View {
-        FriendPhotosView(photos: [Photo(image: "Unknown")])
+        .onAppear(perform: viewModel.getFriendPhotosData)
+        .navigationTitle(viewModel.friend.name + " " + viewModel.friend.lastName)
     }
 }

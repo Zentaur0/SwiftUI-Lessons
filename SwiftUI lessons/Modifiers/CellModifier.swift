@@ -10,8 +10,7 @@ import SwiftUI
 struct CellModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
-            .padding([.leading, .trailing], 10)
-            .padding([.top, .bottom], 10)
+            .padding(.all, 10)
             .frame(maxHeight: 70)
     }
 }

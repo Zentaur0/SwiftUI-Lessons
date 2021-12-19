@@ -6,9 +6,17 @@
 //
 
 import Foundation
+import SwiftyJSON
 
-struct Group: Identifiable {
-    let id: UUID = UUID()
+class Group: Identifiable, Decodable {
+    
+    let id: Int
     let name: String
-    var imageName: String = "Unknown"
+    let avatarURL: String
+    
+    init(json: SwiftyJSON.JSON) {
+        self.id = json["id"].intValue
+        self.name = json["name"].stringValue
+        self.avatarURL = json["photo_100"].stringValue
+    }
 }

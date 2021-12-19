@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct FriendPhotoCell: View {
     
@@ -21,7 +22,7 @@ struct FriendPhotoCell: View {
     var body: some View {
         HStack {
             GeometryReader { _ in
-                Image(photo.image)
+                KFImage(URL(string: photo.imageURL))
                     .resizable()
                     .aspectRatio(contentMode: .fit)
             }

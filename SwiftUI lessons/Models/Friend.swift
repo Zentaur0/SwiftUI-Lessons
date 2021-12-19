@@ -6,13 +6,26 @@
 //
 
 import Foundation
-import UIKit
+import SwiftUI
+import SwiftyJSON
 
-struct Friend: Identifiable {
-    let id: UUID = UUID()
+struct Friend: Identifiable, Decodable {
+    
     let name: String
     let lastName: String
-    var imageName: String = "Unknown"
-    let age: Int
+    let avatarURL: String
+    let city: String
+    let id: Int
+    
     var photos: [Photo] = []
+
+    // MARK: - Init
+    
+    init(json: SwiftyJSON.JSON) {
+        self.id = json["id"].intValue
+        self.name = json["first_name"].stringValue
+        self.lastName = json["last_name"].stringValue
+        self.city = json["city"]["title"].stringValue
+        self.avatarURL = json["photo_100"].stringValue
+    }
 }

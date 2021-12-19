@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct FriendCell: View {
     
@@ -21,16 +22,16 @@ struct FriendCell: View {
     // MARK: - Body
     var body: some View {
         HStack {
-            Image(friend.imageName)
+            KFImage(URL(string: friend.avatarURL))
                 .resizable()
                 .frame(width: imageMargin, height: imageMargin, alignment: .leading)
                 .cornerRadius(25)
                 .shadow(color: .gray, radius: 2, x: 2, y: 2)
             
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 10) {
                 Text(friend.name + " " + friend.lastName)
                 Spacer()
-                Text("\(friend.age)")
+                Text(friend.city)
                     .foregroundColor(.gray)
             }
         }
