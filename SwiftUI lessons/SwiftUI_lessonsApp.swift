@@ -9,9 +9,18 @@ import SwiftUI
 
 @main
 struct SwiftUI_lessonsApp: App {
+    
+    let isAuthorized = UserDefaults.standard.bool(forKey: "isAuthorized")
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            if let isAuthorized = isAuthorized, isAuthorized {
+                NavigationView {
+                    MainScreen()
+                }
+            } else {
+                LoginScreen()
+            }
         }
     }
 }

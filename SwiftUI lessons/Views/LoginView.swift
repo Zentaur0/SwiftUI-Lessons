@@ -8,11 +8,20 @@
 import SwiftUI
 import Combine
 
-struct ContentView: View {
+struct LoginView: View {
+    
+    // MARK: - Properties
     @State private var login = ""
     @State private var password = ""
     @State private var shouldShowLogo = true
+    @State private var shouldShowAuthentificationFailureAlert = false
+    @State private var isPresentedWebView = false
     
+    @Binding var shouldShowMainScreen: Bool
+    @Binding var shouldShowVKLoginScreen: Bool
+    
+    private let buttonMinWidth: CGFloat = 150
+    private let buttonMinHeight: CGFloat = 40
     private let maxTextFieldWidth: CGFloat = UIScreen.main.bounds.width * 0.66
     private let keyboardIsOnPublisher = Publishers.Merge(
         NotificationCenter.default.publisher(for: UIResponder.keyboardWillChangeFrameNotification)
@@ -21,7 +30,7 @@ struct ContentView: View {
             .map { _ in false }
     ).removeDuplicates()
     
-    
+    // MARK: - Body
     var body: some View {
         ZStack {
             GeometryReader { _ in
@@ -68,16 +77,31 @@ struct ContentView: View {
                     
                     Spacer()
                     
-                    Button {
-                        loginButtonTapped()
-                    } label: {
-                        Text("Login")
-                            .foregroundColor(.white)
+                    VStack {
+                        Button {
+                            loginButtonTapped()
+                        } label: {
+                            Text("Login")
+                                .foregroundColor(.white)
+                        }
+                        .frame(minWidth: buttonMinWidth, minHeight: buttonMinHeight)
+                        .background(.blue)
+                        .cornerRadius(10)
+                        .disabled(login.isEmpty || password.isEmpty)
+                        
+                        Spacer()
+                        
+                        Button {
+                            vkButtonTapped()
+                        } label: {
+                            Text("VK Login")
+                                .foregroundColor(.white)
+                        }
+                        .frame(minWidth: buttonMinWidth, minHeight: buttonMinHeight)
+                        .background(.orange)
+                        .cornerRadius(10)
                     }
                     .padding(.top, 200)
-                    .padding(.bottom, 20)
-                    .buttonStyle(.borderedProminent)
-                    .disabled(login.isEmpty || password.isEmpty)
                 }
             }
             .onReceive(keyboardIsOnPublisher) { isKeyboardOn in
@@ -92,23 +116,26 @@ struct ContentView: View {
             .onAppear {
                 UIScrollView.appearance().keyboardDismissMode = .onDrag
             }
+            .alert(isPresented: $shouldShowAuthentificationFailureAlert) {
+                Alert(title: Text("Ups"),
+                      message: Text("Login or password is incorrec, please, try again"),
+                      dismissButton: .cancel())
+            }
         }
     }
     
+    // MARK: - Methods
     private func loginButtonTapped() {
-        
+        if login == "1" && password == "2" {
+            password = ""
+            shouldShowMainScreen = true
+        } else {
+            password = ""
+            shouldShowAuthentificationFailureAlert = true
+        }
     }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-            .previewDevice(PreviewDevice(rawValue: "IPhone 12"))
+    
+    private func vkButtonTapped() {
+        shouldShowVKLoginScreen = true
     }
-}
-
-extension UIApplication {
-   func endEditing() {
-       sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-   }
 }
