@@ -12,7 +12,6 @@ struct CellModifier: ViewModifier {
         content
             .padding([.leading, .trailing], 10)
             .padding([.top, .bottom], 10)
-            .border(.gray, width: 1)
             .frame(maxHeight: 70)
     }
 }

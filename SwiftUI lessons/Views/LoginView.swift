@@ -8,10 +8,15 @@
 import SwiftUI
 import Combine
 
-struct ContentView: View {
+struct LoginView: View {
+    
+    // MARK: - Properties
     @State private var login = ""
     @State private var password = ""
     @State private var shouldShowLogo = true
+    @State private var shouldShowAuthentificationFailureAlert = false
+    
+    @Binding var shouldShowMainScreen: Bool
     
     private let maxTextFieldWidth: CGFloat = UIScreen.main.bounds.width * 0.66
     private let keyboardIsOnPublisher = Publishers.Merge(
@@ -21,7 +26,7 @@ struct ContentView: View {
             .map { _ in false }
     ).removeDuplicates()
     
-    
+    // MARK: - Body
     var body: some View {
         ZStack {
             GeometryReader { _ in
@@ -92,23 +97,29 @@ struct ContentView: View {
             .onAppear {
                 UIScrollView.appearance().keyboardDismissMode = .onDrag
             }
+            .alert(isPresented: $shouldShowAuthentificationFailureAlert) {
+                Alert(title: Text("Ups"),
+                      message: Text("Login or password is incorrec, please, try again"),
+                      dismissButton: .cancel())
+            }
         }
     }
     
+    // MARK: - Methods
     private func loginButtonTapped() {
-        
+        if login == "1" && password == "2" {
+            password = ""
+            shouldShowMainScreen = true
+        } else {
+            password = ""
+            shouldShowAuthentificationFailureAlert = true
+        }
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        LoginView(shouldShowMainScreen: .constant(true))
             .previewDevice(PreviewDevice(rawValue: "IPhone 12"))
     }
-}
-
-extension UIApplication {
-   func endEditing() {
-       sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-   }
 }
