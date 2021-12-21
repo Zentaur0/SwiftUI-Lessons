@@ -35,6 +35,15 @@ struct MainScreen: View {
             
         }
         .navigationTitle(setupNavigationTitle(selection))
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    // add alert to exit
+                } label: {
+                    Text("Exit")
+                }
+            }
+        }
     }
     
     private func setupNavigationTitle(_ tab: Int) -> String {

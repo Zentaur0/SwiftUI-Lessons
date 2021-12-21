@@ -10,13 +10,17 @@ import WebKit
 
 struct VKLoginWebView: UIViewRepresentable {
     
+    @Environment(\.presentationMode) var mode
+    
     var navigationDelegate = WebViewNavigationDelegate()
     
     func makeUIView(context: Context) -> WKWebView {
         let webView = WKWebView()
         webView.navigationDelegate = navigationDelegate
-        navigationDelegate.onDismiss = {
-            // make pop view controller
+        navigationDelegate.onDismiss = { isAuthorized in
+            if isAuthorized {
+                mode.wrappedValue.dismiss()
+            }
         }
         return webView
     }
@@ -46,7 +50,7 @@ struct VKLoginWebView: UIViewRepresentable {
 
 class WebViewNavigationDelegate: NSObject, WKNavigationDelegate {
     
-    var onDismiss: (() -> Void)?
+    var onDismiss: ((Bool) -> Void)?
     
     func webView(_ webView: WKWebView,
                  decidePolicyFor navigationResponse: WKNavigationResponse,
@@ -84,7 +88,7 @@ class WebViewNavigationDelegate: NSObject, WKNavigationDelegate {
         
         UserDefaults.standard.set(true, forKey: "isAuthorized")
         
-        onDismiss?()
+        onDismiss?(true)
         
         decisionHandler(.cancel)
     }

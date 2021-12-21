@@ -13,6 +13,8 @@ struct LoginScreen: View {
     @State private var shouldShowMainScreen = false
     @State private var shouldShowVKScreen = false
     
+    private var vkWebView = VKLoginWebView()
+    
     // MARK: - Body
     var body: some View {
         NavigationView {
@@ -21,11 +23,10 @@ struct LoginScreen: View {
                     shouldShowMainScreen: $shouldShowMainScreen,
                     shouldShowVKLoginScreen: $shouldShowVKScreen
                 )
-                
-                NavigationLink(isActive: $shouldShowVKScreen) {
-                    VKLoginWebView()
-                } label: {
-                    EmptyView()
+                .sheet(isPresented: $shouldShowVKScreen) {
+                    
+                } content: {
+                    vkWebView
                 }
                 
                 NavigationLink(isActive: $shouldShowMainScreen) {
