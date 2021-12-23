@@ -70,6 +70,14 @@ struct CodingStyle {
     
     // MARK: - Methods
     private mutating func makeStyledString(_ oldValue: String) {
+        let forbidenSymbols = [
+            "?", ",", "!", "'", ".", "-", "_", "+", "=", "*", "%", "$", "@", "(", ")", "<", ">", "*", "|", "&", "#", "~"
+        ]
+        var oldValue = oldValue
+        oldValue.removeAll {
+            forbidenSymbols.contains(String($0))
+        }
+        
         switch style {
         case .kebab:
             makeKebabString(oldValue)
