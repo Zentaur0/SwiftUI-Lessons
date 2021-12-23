@@ -6,48 +6,35 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct FriendCell: View {
     
-    @State var userName: String = ""
-    @State var lastName: String = ""
-    @State var imageName: String = ""
-    @State var age: Int = 0
-    
+    // MARK: - Properties
     private let imageMargin: CGFloat = 50
+    private let friend: Friend
     
+    // MARK: - Init
+    init(friend: Friend) {
+        self.friend = friend
+    }
+    
+    // MARK: - Body
     var body: some View {
         HStack {
-            Image(imageName)
+            KFImage(URL(string: friend.avatarURL))
                 .resizable()
                 .frame(width: imageMargin, height: imageMargin, alignment: .leading)
                 .cornerRadius(25)
                 .shadow(color: .gray, radius: 2, x: 2, y: 2)
             
-            VStack(alignment: .leading) {
-                Text(userName + " " + lastName)
+            VStack(alignment: .leading, spacing: 10) {
+                Text(friend.name + " " + friend.lastName)
                 Spacer()
-                Text("\(age)")
+                Text(friend.city)
                     .foregroundColor(.gray)
             }
         }
         .modifier(CellModifier())
-        
-    }
-    
-    func configure(name: String, lastName: String, imageName: String, age: Int) -> Self {
-        FriendCell(userName: name, lastName: lastName, age: age)
-    }
-}
-
-struct FriendCell_Previews: PreviewProvider {
-    static var previews: some View {
-        FriendCell()
-            .configure(
-                name: "Viktor",
-                lastName: "Krum",
-                imageName: "Unknown",
-                age: 24
-            )
     }
 }
