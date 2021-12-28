@@ -13,6 +13,9 @@ struct FriendPhotoCell: View {
     // MARK: - Properties
     private let photo: Photo
     
+    @State private var isLikeChanged = false
+    @State private var isCommentLeft = false
+    
     // MARK: - Init
     init(photo: Photo) {
         self.photo = photo
@@ -21,11 +24,52 @@ struct FriendPhotoCell: View {
     // MARK: - Body
     var body: some View {
         HStack {
-            GeometryReader { _ in
-                KFImage(URL(string: photo.imageURL))
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
+            VStack {
+                GeometryReader { geo in
+                    KFImage(URL(string: photo.imageURL))
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: geo.size.width, height: geo.size.height)
+                }
+                
+                Spacer()
+                
+                HStack {
+                    HStack {
+                        Button {
+                            
+                        } label: {
+                            Image(systemName: isLikeChanged ? "heart.circle.fill" : "heart.circle")
+                                .modifier(VKButtonModifier(isButtonChanged: $isLikeChanged))
+                        }
+                        .scaleEffect(CGSize(width: 2, height: 2))
+                        .tint(isLikeChanged ? .red : .black)
+                        
+                        Text(isLikeChanged ? "1" : "0")
+                            .padding(.leading)
+                    }
+                    
+                    Spacer()
+                    
+                    HStack {
+                        Text(isCommentLeft ? "1" : "0")
+                            .padding(.trailing)
+                        
+                        Button {
+                            
+                        } label: {
+                            Image(systemName: isCommentLeft ? "message.circle.fill" : "message.circle")
+                                .modifier(VKButtonModifier(isButtonChanged: $isCommentLeft))
+                        }
+                        .scaleEffect(CGSize(width: 2, height: 2))
+                        .tint(.black)
+                    }
+                    
+                }
+                .padding(.all)
             }
         }
+        .border(.black)
+        .cornerRadius(2)
     }
 }
